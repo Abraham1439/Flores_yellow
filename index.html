@@ -3,49 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#36091f">
   <title>Flores Amarillas 💛</title>
-  
-  <!-- Fuentes de Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-  
-  <!-- Estilos CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <!-- Fondo animado opcional -->
-  <div class="background-overlay"></div>
-
-  <!-- Contenedor principal de la tarjeta -->
-  <main class="card">
-    
-    <!-- Sección Izquierda: Deducción y Contador -->
-    <section class="left-content">
-      <div class="letter-box">
-        <div id="typewriter-text"></div>
-      </div>
-
+  <div class="background-hearts" aria-hidden="true"><span>♡</span><span>♡</span><span>♡</span><span>♡</span><span>♡</span><span>♡</span></div>
+  <main class="card" id="card">
+    <section class="scene" aria-label="Un árbol de girasoles en forma de corazón">
+      <canvas id="treeCanvas" role="img" aria-label="Animación: una semilla crece hasta convertirse en un árbol de flores amarillas"></canvas>
+      <button class="start" id="start" aria-label="Pulsa para plantar tu girasol">
+        <img src="assets/girasol.png" alt="Girasol amarillo" width="120" height="120">
+        <span>Flores para ti<small>Haz clic en el girasol</small></span>
+      </button>
+      <button class="replay" id="replay" hidden>↻ Volver a florecer</button>
+    </section>
+    <section class="left-content" id="letter" inert aria-hidden="true">
+      <div class="eyebrow">UN PEQUEÑO DETALLE PARA TI MY LOVE</div>
+      <div class="letter-box" id="typewriter-text"></div>
       <div class="counter-box">
-        <p class="counter-title">Mi amor por ti comenzó hace...</p>
-        <div id="timer" class="timer-display">
-          <span id="days">0</span> días 
-          <span id="hours">00</span> horas 
-          <span id="minutes">00</span> minutos 
-          <span id="seconds">00</span> segundos
-        </div>
+        <p class="counter-title">Mi amor por ti comenzó hace…</p>
+        <div class="timer-display"><span id="days">0</span> días<br><span id="hours">00</span> horas · <span id="minutes">00</span> minutos · <span id="seconds">00</span> segundos</div>
       </div>
     </section>
-
-    <!-- Sección Derecha: Árbol de Corazón y Pétalos -->
-    <section class="right-content">
-      <canvas id="treeCanvas"></canvas>
-    </section>
-
+    <p class="sr-only" id="status" role="status" aria-live="polite">Pulsa el girasol para comenzar.</p>
   </main>
-
-  <!-- Script de JavaScript -->
   <script src="js/script.js"></script>
 </body>
 </html>
