@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flores Amarillas 💛</title>
+  
+  <!-- Fuentes de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Fondo animado opcional -->
+  <div class="background-overlay"></div>
+
+  <!-- Contenedor principal de la tarjeta -->
+  <main class="card">
+    
+    <!-- Sección Izquierda: Deducción y Contador -->
+    <section class="left-content">
+      <div class="letter-box">
+        <div id="typewriter-text"></div>
+      </div>
+
+      <div class="counter-box">
+        <p class="counter-title">Mi amor por ti comenzó hace...</p>
+        <div id="timer" class="timer-display">
+          <span id="days">0</span> días 
+          <span id="hours">00</span> horas 
+          <span id="minutes">00</span> minutos 
+          <span id="seconds">00</span> segundos
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Derecha: Árbol de Corazón y Pétalos -->
+    <section class="right-content">
+      <canvas id="treeCanvas"></canvas>
+    </section>
+
+  </main>
+
+  <!-- Script de JavaScript -->
+  <script src="js/script.js"></script>
+</body>
+</html>

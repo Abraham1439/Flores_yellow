@@ -1,0 +1,118 @@
+/* Reseteo básico de márgenes */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #2e081d 0%, #12020b 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+/* Tarjeta principal estilo visualización TikTok */
+.card {
+  width: 100%;
+  max-width: 850px;
+  background: #fdf8f0;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  position: relative;
+  min-height: 480px;
+}
+
+/* Columna izquierda con texto */
+.left-content {
+  flex: 1.1;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.letter-box {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #4a3b32;
+  font-weight: 400;
+  min-height: 180px;
+}
+
+.letter-box p {
+  margin-bottom: 12px;
+}
+
+.signature {
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  color: #d97706;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* Estilos del contador */
+.counter-box {
+  border-top: 1px solid #ebd5c1;
+  padding-top: 18px;
+  margin-top: 20px;
+}
+
+.counter-title {
+  font-size: 0.9rem;
+  color: #786454;
+  margin-bottom: 6px;
+}
+
+.timer-display {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #382a21;
+}
+
+.timer-display span {
+  font-weight: 700;
+  color: #b45309;
+}
+
+/* Columna derecha con el Canvas */
+.right-content {
+  flex: 1.2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+}
+
+#treeCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Adaptación para pantallas móviles */
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column-reverse;
+    max-width: 450px;
+  }
+
+  .left-content {
+    padding: 25px;
+  }
+
+  .right-content {
+    height: 350px;
+  }
+}
