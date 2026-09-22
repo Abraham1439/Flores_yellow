@@ -4,7 +4,7 @@ const fechaInicio = new Date(2022, 1, 2, 0, 0, 0);
 const lineasTexto = [
   'Flores amarillas para el amor de mi vida',
   'Lamento no poder dártelas en persona; sin embargo, jamás serás espectadora.',
-  'Así que te regalo estas flores amarillas virtuales. ¡Te amo tres millones!',
+  'Así que te regalo estas flores amarillas virtuales. Te amo tres millones mi chiquita bella <3',
   '— I Love You! 💛🦦'
 ];
 const canvas = document.getElementById('treeCanvas'), ctx = canvas.getContext('2d');
