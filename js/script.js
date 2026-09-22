@@ -1,6 +1,6 @@
 'use strict';
-// Personaliza aquí la fecha y la dedicatoria. El mes empieza en 0 (septiembre = 8).
-const fechaInicio = new Date(2023, 8, 21, 0, 0, 0);
+// Personaliza aquí la fecha y la dedicatoria. El mes empieza en 0 (febrero = 1).
+const fechaInicio = new Date(2022, 1, 2, 0, 0, 0);
 const lineasTexto = [
   'Flores amarillas para el amor de mi vida',
   'Lamento no poder dártelas en persona; sin embargo, jamás serás espectadora.',
