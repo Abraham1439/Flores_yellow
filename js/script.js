@@ -37,7 +37,38 @@ const branches = [
  [213,199,188,186,169,183,146,184,3,.8], [235,218,228,174,220,136,196,113,3,.9]
 ];
 function size(){const b=canvas.getBoundingClientRect();width=b.width;height=b.height;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);draw(performance.now());}
-function flower(f,p=1){if(p<=0)return;ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.rotation);ctx.scale(p,p);for(let layer=0;layer<2;layer++){ctx.fillStyle=layer?(f.tone>.45?'#ffdb27':'#ffcf0b'):'#eeb01c';for(let i=0;i<12;i++){const a=i*Math.PI/6+layer*.23;ctx.save();ctx.rotate(a);ctx.beginPath();ctx.ellipse(0,f.r*.60,f.r*.23,f.r*.55,0,0,Math.PI*2);ctx.fill();ctx.restore();}}ctx.fillStyle='#6f3c15';ctx.beginPath();ctx.arc(0,0,f.r*.39,0,7);ctx.fill();ctx.fillStyle='#352210';ctx.beginPath();ctx.arc(0,0,f.r*.26,0,7);ctx.fill();ctx.fillStyle='#c1973b';for(let i=0;i<7;i++){const a=i*2.4;ctx.beginPath();ctx.arc(Math.cos(a)*f.r*.23,Math.sin(a)*f.r*.23,.52,0,7);ctx.fill();}ctx.restore();}
+function paintFlower(f,p,target){if(p<=0)return;target.save();target.translate(f.x,f.y);target.rotate(f.rotation);target.scale(p,p);for(let layer=0;layer<2;layer++){target.fillStyle=layer?(f.tone>.45?'#ffdb27':'#ffcf0b'):'#eeb01c';for(let i=0;i<12;i++){const a=i*Math.PI/6+layer*.23;target.save();target.rotate(a);target.beginPath();target.ellipse(0,f.r*.60,f.r*.23,f.r*.55,0,0,Math.PI*2);target.fill();target.restore();}}target.fillStyle='#6f3c15';target.beginPath();target.arc(0,0,f.r*.39,0,7);target.fill();target.fillStyle='#352210';target.beginPath();target.arc(0,0,f.r*.26,0,7);target.fill();target.fillStyle='#c1973b';for(let i=0;i<7;i++){const a=i*2.4;target.beginPath();target.arc(Math.cos(a)*f.r*.23,Math.sin(a)*f.r*.23,.52,0,7);target.fill();}target.restore();}
+// Cada flor se rasteriza una sola vez, conservando su color y rotación.
+const flowerSprites = flowers.map(f => {
+  const sprite = document.createElement('canvas');
+  sprite.width = sprite.height = 48;
+  const target = sprite.getContext('2d');
+  target.scale(2, 2);
+  paintFlower({...f, x:12, y:12}, 1, target);
+  return sprite;
+});
+let flowerCanopy = null;
+function flower(f,p=1,index){
+  if(p<=0)return;
+  const side=24*p;
+  ctx.drawImage(flowerSprites[index],f.x-side/2,f.y-side/2,side,side);
+}
+function drawFlowers(t){
+  if(t<7.5){
+    flowers.forEach((f,index)=>flower(f,ease((t-4.7-f.delay)/1.2),index));
+    return;
+  }
+  // La copa ya está completa: basta una imagen por fotograma.
+  if(!flowerCanopy){
+    flowerCanopy=document.createElement('canvas');
+    flowerCanopy.width=1000;
+    flowerCanopy.height=1040;
+    const target=flowerCanopy.getContext('2d');
+    target.scale(2,2);
+    flowers.forEach((f,index)=>target.drawImage(flowerSprites[index],f.x-12,f.y-12,24,24));
+  }
+  ctx.drawImage(flowerCanopy,0,0,500,520);
+}
 function branch(b,p){if(p<=0)return;ctx.fillStyle='#895020';let prev={x:b[0],y:b[1]};for(let i=1;i<=40;i++){const t=Math.min(i/40,p),v=1-t;const q={x:v*v*v*b[0]+3*v*v*t*b[2]+3*v*t*t*b[4]+t*t*t*b[6],y:v*v*v*b[1]+3*v*v*t*b[3]+3*v*t*t*b[5]+t*t*t*b[7]};ctx.lineWidth=Math.max(.6,b[8]*(1-t));ctx.strokeStyle='#895020';ctx.lineCap='round';ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(q.x,q.y);ctx.stroke();prev=q;if(t>=p)break;}}
 function reveal(){if(complete)return;complete=true;card.classList.add('complete');letter.inert=false;letter.setAttribute('aria-hidden','false');replay.hidden=false;statusText.textContent='Tu árbol ha florecido. Ya puedes leer la dedicatoria.';const box=document.getElementById('typewriter-text');box.replaceChildren();if(reduced.matches){lineasTexto.forEach((s,i)=>{const p=document.createElement('p');p.textContent=s;if(i===3)p.className='signature';box.append(p);});return;}let line=0,char=0,p;function type(){if(line>=lineasTexto.length)return;if(char===0){p=document.createElement('p');if(line===3)p.className='signature';box.append(p);}p.textContent=lineasTexto[line].slice(0,++char);if(char===lineasTexto[line].length){line++;char=0;}writingTimer=setTimeout(type,char===0?260:32);}type();}
 function draw(now){ctx.clearRect(0,0,width,height);if(startedAt===null)return;const t=reduced.matches?12:(now-startedAt)/1000;const desktop=width>650;const scale=Math.min((desktop?width*.51:width*.97)/500,(height-22)/520);const center=mix(width/2,desktop?width*.735:width/2,ease((t-7.8)/1.5));const base=height-43;const ox=center-250*scale,oy=base-480*scale;
@@ -46,7 +77,7 @@ function draw(now){ctx.clearRect(0,0,width,height);if(startedAt===null)return;co
  ctx.save();ctx.translate(ox,oy);ctx.scale(scale,scale);
  const trunk=ease((t-1.85)/1.8);if(trunk>0){ctx.save();ctx.beginPath();ctx.rect(0,480-365*trunk,500,365*trunk+1);ctx.clip();const g=ctx.createLinearGradient(236,0,262,0);g.addColorStop(0,'#74401b');g.addColorStop(1,'#a3672c');ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(235,480);ctx.bezierCurveTo(246,411,249,308,248,240);ctx.bezierCurveTo(247,181,239,139,233,125);ctx.bezierCurveTo(251,142,263,214,262,278);ctx.bezierCurveTo(257,361,258,416,261,480);ctx.closePath();ctx.fill();ctx.restore();}
  branches.forEach(b=>branch(b,ease((t-3.05-b[9]) /1.5)));
- flowers.forEach(f=>flower(f,ease((t-4.7-f.delay)/1.2)));
+ drawFlowers(t);
  // Pocos pétalos: el corazón conserva su silueta y no se oculta tras partículas.
  if(t>8&&!reduced.matches)for(let i=0;i<8;i++){const age=(t-8+i*.71)%5.7;const f=flowers[(i*97)%flowers.length];ctx.save();ctx.globalAlpha=.6*(1-age/5.7);ctx.translate(f.x+Math.sin(age+i)*14-age*5,f.y+age*28);ctx.rotate(age+i);ctx.fillStyle='#e9b21e';ctx.beginPath();ctx.ellipse(0,0,2,4,0,0,7);ctx.fill();ctx.restore();}
  ctx.restore();if(t>=9.3)reveal();}
